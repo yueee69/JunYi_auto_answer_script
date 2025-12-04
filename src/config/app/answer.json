@@ -1,0 +1,4 @@
+{
+    "base": "https://www.junyiacademy.org/",
+    "answer": "https://www.junyiacademy.org/api/v2/perseus/{}/get_question"
+}
