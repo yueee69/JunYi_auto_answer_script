@@ -1,6 +1,9 @@
+import time
 import selenium.webdriver as webdriver
 
 from .BASE_DRIVER import BaseDriver
+from .ParserManager import ParserManager
+
 
 class UniversalDriver(BaseDriver):
     def __init__(self, driver: webdriver, url: str, answer: list[dict]):
@@ -10,4 +13,18 @@ class UniversalDriver(BaseDriver):
 
     def run(self) -> None:
         self.driver.get(self.url)
+        self.driver.set_window_size(1200, 1600)
+        self.driver.execute_script("document.body.style.zoom='100%'")
         self.skip_ad()
+
+        parser_manager = ParserManager()
+
+        for idx, question in enumerate(self.answer, start=1):
+            time.sleep(0.2)
+            parser_manager.solve_question(self.driver, question)
+
+            if idx == len(self.answer):
+                self.finish_quetion()
+                break
+
+            self.submit_question()

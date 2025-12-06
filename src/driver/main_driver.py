@@ -26,6 +26,7 @@ class MainHandler:
     
     def __get_answer(self) -> list[dict]:
         answer = requests.get(self.manager.answer_manager.get_answer_url(self.url)).json()["data"] #一定會200
+        
         if len(answer) == 0:
             raise ValueError("Failed to get answers from the provided URL.")
 

@@ -1,4 +1,5 @@
 import os
+from selenium.common.exceptions import WebDriverException, NoSuchWindowException
 
 from utils.toolkit import Tool
 from driver.main_driver import MainHandler
@@ -10,5 +11,12 @@ def main():
     user_input = input('請輸入測驗網址(https://www.junyiacademy.org/XXXXXXXXXXXXXXXX)\n')
     url = Tool.get_format_url(user_input)
 
-    handler = MainHandler(url)
-    handler.run()
+    try:
+        handler = MainHandler(url)
+        handler.run()
+    except (ValueError, WebDriverException, NoSuchWindowException):
+        print("\n[INFO] 使用者已關閉瀏覽器，程式結束。")
+        return
+
+    print('\n程式已經結束，請確認分數！')
+    os.system('pause')

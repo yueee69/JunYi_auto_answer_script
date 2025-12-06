@@ -1,3 +1,5 @@
+import os
+
 from .BASE_DRIVER import BaseDriver
 
 class AnswerManager(BaseDriver):
@@ -20,11 +22,15 @@ class AnswerManager(BaseDriver):
         path = url.split("junyiacademy.org/")[-1]
         segments = [s for s in path.split("/") if s]
 
-        last = segments[-1]
-        if last.startswith("jr-"):
-            last = last.replace("jr-", "")
-        return last
-
+        try:
+            last = segments[-1]
+            if last.startswith("jr-"):
+                last = last.replace("jr-", "")
+            return last
+        
+        except IndexError:
+            raise ValueError("請輸入正確的URL https://www.junyiacademy.org/XXXXXXXXXXXXXXXX")
+        
     def needs_exam_prefix(self, url: str) -> bool:
         path = url.split("junyiacademy.org/")[-1]
         segments = [s for s in path.split("/") if s]
@@ -37,4 +43,7 @@ class AnswerManager(BaseDriver):
         if self.needs_exam_prefix(url):
             return f"https://www.junyiacademy.org/api/v2/perseus/exam/{qid}/get_question"
         else:
+            print("目前不支援國中端")
+            os.system("pause")
+            return
             return f"https://www.junyiacademy.org/api/v2/perseus/{qid}/get_question"

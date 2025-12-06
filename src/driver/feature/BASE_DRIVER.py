@@ -1,3 +1,6 @@
+import time
+import hashlib
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -6,12 +9,12 @@ class BaseDriver:
     def __init__(self, driver):
         self.driver = driver()
 
-    def wait_visible(self, by, value, timeout=10):
+    def wait_visible(self, by, value, timeout = 10):
         return WebDriverWait(self.driver, timeout).until(
             EC.visibility_of_element_located((by, value))
         )
 
-    def wait_clickable(self, by, value, timeout=10):
+    def wait_clickable(self, by, value, timeout = 10):
         return WebDriverWait(self.driver, timeout).until(
             EC.element_to_be_clickable((by, value))
         )
@@ -42,3 +45,33 @@ class BaseDriver:
                 self.click(By.CLASS_NAME, "MuiButton-containedPrimary")
             except:
                 break
+
+    def finish_quetion(self):
+        self.click(By.ID, "watch-report-directly-input-big-screen")
+        try:
+            self.click(By.CSS_SELECTOR, ".swal2-confirm")
+        except:
+            pass
+
+    def submit_question(self):
+        self.click(By.ID, "check-answer-button")
+
+        try:
+            WebDriverWait(self.driver, 2).until(
+                EC.presence_of_element_located((By.ID, "next-question-button"))
+            )
+
+            WebDriverWait(self.driver, 10).until(
+                lambda d: d.find_element(By.ID, "next-question-button").is_enabled()
+            )
+
+            self.driver.find_element(By.ID, "next-question-button").click()
+            return
+
+        except:
+            pass 
+
+        try:
+            self.click(By.ID, "check-answer-button")
+        except:
+            pass
