@@ -26,9 +26,12 @@ class ParserManager:
 
         widgets = question.get("question", {}).get("question", {}).get("widgets", {})
         for parser in self.parsers:
-            if parser.can_handle(driver, question, html_info, widgets):
-                parser.handle(driver, question, html_info, widgets)
-                return
+            try:
+                if parser.can_handle(driver, question, html_info, widgets):
+                    parser.handle(driver, question, html_info, widgets)
+                    return
+            except:
+                continue
 
         print("[WARN] No parser can handle this question structure.")
 
