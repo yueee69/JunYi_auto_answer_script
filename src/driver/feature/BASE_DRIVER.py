@@ -75,3 +75,12 @@ class BaseDriver:
             self.click(By.ID, "check-answer-button")
         except:
             pass
+
+    def get_question_text(self):
+        elem = self.driver.find_element(By.CSS_SELECTOR, ".perseus-renderer")
+        return elem.text.strip()
+
+    def wait_for_question_text_change(self, old_text, timeout=10):
+        WebDriverWait(self.driver, timeout).until(
+            lambda d: d.find_element(By.CSS_SELECTOR, ".perseus-renderer").text.strip() != old_text
+        )

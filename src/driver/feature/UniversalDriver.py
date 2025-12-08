@@ -20,7 +20,8 @@ class UniversalDriver(BaseDriver):
         parser_manager = ParserManager()
 
         for idx, question in enumerate(self.answer, start=1):
-            time.sleep(0.2)
+            old_text = self.get_question_text()
+
             parser_manager.solve_question(self.driver, question)
 
             if idx == len(self.answer):
@@ -28,3 +29,4 @@ class UniversalDriver(BaseDriver):
                 break
 
             self.submit_question()
+            self.wait_for_question_text_change(old_text)
