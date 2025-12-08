@@ -37,7 +37,7 @@ git clone https://github.com/yueee69/JunYi_auto_answer_script
 然後定位到此專案
 
 ```bash
-cd JunYi_auto_answer_script/src
+cd JunYi_auto_answer_script
 ```
 
 接著下載所需套件：
